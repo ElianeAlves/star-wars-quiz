@@ -1,18 +1,26 @@
 <div class="relative mx-auto">
     <div>
-        <img class="absolute" src="./assets/galaxia.png" width="100%" height="100%" alt="">
+        <img class="fixed" src="./assets/galaxia.png" width="100%" alt="">
     </div>
     <div class="container mx-auto z-10 absolute left-1/2 transform -translate-x-1/2">
-        <h1 class="text-center text-white">Quiz Star Wars</h1>
-        <div class="flex flex-col justify-center items-center" *ngFor="let item of quiz">
-            <img [src]="item.img" alt="" class="w-[700px]">
-            <div class="bg-white">
-                <p>{{item.question}}</p>
-                <div *ngFor="let opcao of item.answer">
-                    <button>{{opcao.opcao1}}</button>
-                    <button>{{opcao.opcao2}}</button>
+        <div class="flex justify-center">
+            <img src="./assets/logo.png" alt="" class="my-10">
+        </div>
+        <div class="flex flex-col justify-center items-center" *ngIf="currentQuestionIndex < quiz.length">
+            <img [src]="quiz[currentQuestionIndex].img" alt="" class="max-w-[400px]">
+            <div>
+                <p class="text-[22px] text-[#ffe919] font-semibold">{{ quiz[currentQuestionIndex].question }}</p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div *ngFor="let opcao of quiz[currentQuestionIndex].answer; let i = index">
+                        <button [ngClass]="{'bg-green-600': opcao.selected}" (click)="resp(quiz[currentQuestionIndex], opcao, i)" class="col-span-1 w-[100%] border-[3px] border-[#ffe919] text-[#ffe919] py-2 bg-black">{{ opcao.text }}</button>
+                    </div>
                 </div>
             </div>
+            <button (click)="nextQuestion()" class="mt-4 bg-green-600 text-[#ffe919] py-2 px-4 rounded-full">Próxima Pergunta</button>
+        </div>
+        <div *ngIf="currentQuestionIndex >= quiz.length">
+            <p class="text-[22px] text-[#ffe919] font-semibold">Parabéns, você completou o quiz!</p>
+            <!-- Aqui você pode exibir a pontuação ou uma mensagem de conclusão -->
         </div>
     </div>
 </div>
